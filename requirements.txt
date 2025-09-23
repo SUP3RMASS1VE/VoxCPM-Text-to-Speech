@@ -1,0 +1,13 @@
+soundfile
+numpy
+gradio
+voxcpm
+librosa
+scipy
+Pillow
+requests
+transformers
+tokenizers
+accelerate
+sentencepiece
+openai-whisper
