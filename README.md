@@ -1,5 +1,6 @@
 
 # 🎙️ VoxCPM Text-to-Speech
+<img width="1899" height="875" alt="Screenshot 2025-09-22 200240" src="https://github.com/user-attachments/assets/b74690f7-be8d-4b91-ab1b-087d4a9caabc" />
 
 A Gradio-powered application that uses **[VoxCPM-0.5B](https://modelscope.cn/models/openbmb/VoxCPM-0.5B)** for expressive text-to-speech generation, with optional **voice cloning** and **Whisper transcription** for reference audio.
 
@@ -15,6 +16,13 @@ A Gradio-powered application that uses **[VoxCPM-0.5B](https://modelscope.cn/mod
 ---
 
 ## 🚀 Installation
+
+## Option 1.
+Install via [Pinokio](https://pinokio.co)
+You can use the Pinokio script here for one-click setup:
+[Pinokio App Installer](https://pinokio.co/item.html?uri=https%3A%2F%2Fgithub.com%2FSUP3RMASS1VE%2FVoxCPM-Text-to-Speech-Pinokio&parent_frame=&theme=null)
+
+## Option 2
 
 Clone the repository:
 
