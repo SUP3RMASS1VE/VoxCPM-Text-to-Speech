@@ -13,9 +13,16 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 logging.getLogger("modelscope").setLevel(logging.CRITICAL)
 logging.getLogger("modelscope").disabled = True
 
-# Set environment variables to suppress ModelScope warnings
-os.environ["MODELSCOPE_CACHE"] = os.path.expanduser("~/.cache/modelscope")
+# Set up local models directory
+MODELS_DIR = os.path.join(os.getcwd(), "models")
+os.makedirs(MODELS_DIR, exist_ok=True)
+
+# Set environment variables to use local models directory
+os.environ["MODELSCOPE_CACHE"] = MODELS_DIR
 os.environ["MODELSCOPE_LOG_LEVEL"] = "40"  # 40 = ERROR level in logging
+os.environ["HF_HOME"] = MODELS_DIR
+os.environ["TRANSFORMERS_CACHE"] = os.path.join(MODELS_DIR, "transformers")
+os.environ["HF_DATASETS_CACHE"] = os.path.join(MODELS_DIR, "datasets")
 
 import torch
 import gradio as gr
@@ -34,8 +41,19 @@ torch.set_float32_matmul_precision('high')
 # -------------------------------
 # Load the models once at startup
 # -------------------------------
-model = VoxCPM.from_pretrained("openbmb/VoxCPM-0.5B")
-whisper_model = whisper.load_model("tiny")
+print(f"📁 Models will be stored in: {MODELS_DIR}")
+
+# Load VoxCPM model to local directory
+print("🔄 Loading VoxCPM model...")
+model = VoxCPM.from_pretrained("openbmb/VoxCPM-0.5B", cache_dir=MODELS_DIR)
+print("✅ VoxCPM model loaded")
+
+# Load Whisper model to local directory
+print("🔄 Loading Whisper model...")
+whisper_models_dir = os.path.join(MODELS_DIR, "whisper")
+os.makedirs(whisper_models_dir, exist_ok=True)
+whisper_model = whisper.load_model("tiny", download_root=whisper_models_dir)
+print("✅ Whisper model loaded")
 
 
 def transcribe_audio(audio_path):
