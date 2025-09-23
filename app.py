@@ -426,8 +426,10 @@ with gr.Blocks(
                 label="Text to Synthesize",
                 placeholder="Enter the text you want to convert to speech...",
                 lines=3,
-                value="VoxCPM is an innovative end-to-end TTS model from ModelBest, designed to generate highly expressive speech."
+                value="You wake up to find your dog holding a job interview in your living room. He’s wearing a tie, sipping coffee, and asking YOU why you’re qualified to live in his house. What do you say?"
             )
+
+            generate_btn = gr.Button("🎵 Generate Speech", variant="primary", size="lg")
 
             with gr.Accordion("Voice Cloning", open=True):
                 prompt_audio = gr.Audio(
@@ -503,8 +505,6 @@ with gr.Blocks(
                     label="Seed",
                     info="Random seed for reproducible generation (-1 for random)"
                 )
-
-            generate_btn = gr.Button("🎵 Generate Speech", variant="primary", size="lg")
 
         with gr.Column(scale=1):
             # Output section
