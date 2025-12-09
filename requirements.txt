@@ -1,6 +1,6 @@
 soundfile
 numpy
-gradio
+gradio==5.50.0
 voxcpm
 librosa
 scipy
@@ -11,3 +11,4 @@ tokenizers
 accelerate
 sentencepiece
 openai-whisper
+hf-xet
