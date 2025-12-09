@@ -24,7 +24,14 @@ os.environ["HF_HOME"] = MODELS_DIR
 os.environ["TRANSFORMERS_CACHE"] = os.path.join(MODELS_DIR, "transformers")
 os.environ["HF_DATASETS_CACHE"] = os.path.join(MODELS_DIR, "datasets")
 
+# Disable torch.compile/dynamo to avoid CUDA graph TLS issues with Gradio threading
+os.environ["TORCH_COMPILE_DISABLE"] = "1"
+
 import torch
+
+# Disable dynamo for VoxCPM1.5 compatibility with Gradio
+torch._dynamo.config.suppress_errors = True
+torch._dynamo.config.disable = True
 import gradio as gr
 import soundfile as sf
 import numpy as np
