@@ -44,9 +44,9 @@ torch.set_float32_matmul_precision('high')
 print(f"📁 Models will be stored in: {MODELS_DIR}")
 
 # Load VoxCPM model to local directory
-print("🔄 Loading VoxCPM model...")
-model = VoxCPM.from_pretrained("openbmb/VoxCPM-0.5B", cache_dir=MODELS_DIR)
-print("✅ VoxCPM model loaded")
+print("🔄 Loading VoxCPM 1.5 model...")
+model = VoxCPM.from_pretrained("openbmb/VoxCPM1.5", cache_dir=MODELS_DIR)
+print("✅ VoxCPM 1.5 model loaded")
 
 # Load Whisper model to local directory
 print("🔄 Loading Whisper model...")
@@ -198,8 +198,8 @@ def generate_speech(
         
         # Concatenate all audio chunks
         if len(all_wavs) > 1:
-            # Add small silence between chunks (0.2 seconds)
-            silence = np.zeros(int(16000 * 0.2))
+            # Add small silence between chunks (0.2 seconds at 44.1kHz for VoxCPM1.5)
+            silence = np.zeros(int(44100 * 0.2))
             wav = np.concatenate([np.concatenate([chunk, silence]) for chunk in all_wavs[:-1]] + [all_wavs[-1]])
             print(f"🔗 Concatenated {len(all_wavs)} audio chunks")
         else:
@@ -223,14 +223,14 @@ def generate_speech(
         filename = f"outputs/generated_{timestamp}.wav"
         
         try:
-            sf.write(filename, wav, 16000)  # Save as float32 for better quality
+            sf.write(filename, wav, 44100)  # VoxCPM1.5 uses 44.1kHz sample rate
             print(f"✅ Audio saved to: {os.path.abspath(filename)}")
         except Exception as save_error:
             print(f"⚠️ Failed to save audio: {save_error}")
 
         # Return audio as tuple (sample_rate, numpy_array) for Gradio
         print(f"🎵 Returning audio with shape: {wav_int16.shape}, dtype: {wav_int16.dtype}")
-        return (16000, wav_int16)
+        return (44100, wav_int16)
 
     except Exception as e:
         print(f"💥 ERROR in generate_speech: {str(e)}")
@@ -291,7 +291,7 @@ purple_theme = gr.themes.Base(
 )
 
 with gr.Blocks(
-    title="VoxCPM Text-to-Speech", 
+    title="VoxCPM 1.5 Text-to-Speech", 
     theme=purple_theme,
     css="""
     /* Force dark theme for both light and dark mode */
@@ -413,9 +413,9 @@ with gr.Blocks(
 ) as demo:
     gr.Markdown(
         """
-        # 🎙️ VoxCPM Text-to-Speech 🎙️
+        # 🎙️ VoxCPM 1.5 Text-to-Speech 🎙️
 
-        Generate highly expressive speech using VoxCPM-0.5B model. Optionally clone voices by providing reference audio.
+        Generate highly expressive speech using VoxCPM1.5 model with 44.1kHz audio quality. Optionally clone voices by providing reference audio.
         """
     )
 
