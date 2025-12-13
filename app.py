@@ -14,15 +14,19 @@ logging.getLogger("modelscope").setLevel(logging.CRITICAL)
 logging.getLogger("modelscope").disabled = True
 
 # Set up local models directory
-MODELS_DIR = os.path.join(os.getcwd(), "models")
+MODELS_BASE = os.path.join(os.getcwd(), "models")
+MODELS_DIR = os.path.join(MODELS_BASE, "voxCPM1.5")
 os.makedirs(MODELS_DIR, exist_ok=True)
 
-# Set environment variables to use local models directory
-os.environ["MODELSCOPE_CACHE"] = MODELS_DIR
+# Set environment variables to use local models directory (no auto-downloads)
+# MODELSCOPE_CACHE points to models/modelscope so it finds hub/iic/speech_zipenhancer_ans_multiloss_16k_base
+os.environ["MODELSCOPE_CACHE"] = os.path.join(MODELS_BASE, "modelscope")
 os.environ["MODELSCOPE_LOG_LEVEL"] = "40"  # 40 = ERROR level in logging
-os.environ["HF_HOME"] = MODELS_DIR
-os.environ["TRANSFORMERS_CACHE"] = os.path.join(MODELS_DIR, "transformers")
-os.environ["HF_DATASETS_CACHE"] = os.path.join(MODELS_DIR, "datasets")
+os.environ["MODELSCOPE_LOCAL_FILES_ONLY"] = "1"  # Prevent ModelScope auto-downloads
+os.environ["HF_HOME"] = MODELS_BASE
+os.environ["HF_HUB_OFFLINE"] = "1"  # Prevent HuggingFace auto-downloads
+os.environ["TRANSFORMERS_CACHE"] = os.path.join(MODELS_BASE, "transformers")
+os.environ["HF_DATASETS_CACHE"] = os.path.join(MODELS_BASE, "datasets")
 
 # Disable torch.compile/dynamo to avoid CUDA graph TLS issues with Gradio threading
 os.environ["TORCH_COMPILE_DISABLE"] = "1"
@@ -48,11 +52,11 @@ torch.set_float32_matmul_precision('high')
 # -------------------------------
 # Load the models once at startup
 # -------------------------------
-print(f"📁 Models will be stored in: {MODELS_DIR}")
+print(f"📁 Models directory: {MODELS_DIR}")
 
-# Load VoxCPM model to local directory
-print("🔄 Loading VoxCPM 1.5 model...")
-model = VoxCPM.from_pretrained("openbmb/VoxCPM1.5", cache_dir=MODELS_DIR)
+# Load VoxCPM model from local models folder (pre-downloaded during install)
+print("🔄 Loading VoxCPM 1.5 model from local folder...")
+model = VoxCPM.from_pretrained(MODELS_DIR, local_files_only=True)
 print("✅ VoxCPM 1.5 model loaded")
 
 # Load Whisper model to local directory
