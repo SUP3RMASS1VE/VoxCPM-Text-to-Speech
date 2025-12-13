@@ -17,63 +17,11 @@ A Gradio-powered application that uses **[VoxCPM-0.5B](https://modelscope.cn/mod
 
 ## 🚀 Installation
 
-## Option 1.
 Install via [Pinokio](https://pinokio.co)
 You can use the Pinokio script here for one-click setup:
 [Pinokio App Installer](https://pinokio.co/item.html?uri=https%3A%2F%2Fgithub.com%2FSUP3RMASS1VE%2FVoxCPM-Text-to-Speech-Pinokio&parent_frame=&theme=null)
-
-## Option 2
-
-Clone the repository:
-
-```bash
-git clone https://github.com/SUP3RMASS1VE/VoxCPM-Text-to-Speech.git
-cd VoxCPM-Text-to-Speech
-````
-
-### 1. Install PyTorch
-
-Choose the correct installation based on your OS:
-
-#### **Windows**
-
-```bash
-pip install -r requirements.txt
-pip install torch==2.7.1 torchvision==0.22.1 torchaudio==2.7.1 --index-url https://download.pytorch.org/whl/cu128
-pip install triton-windows==3.3.1.post19
-```
-
-#### **Linux**
-
-```bash
-pip install -r requirements.txt
-pip install torch==2.7.1 torchvision==0.22.1 torchaudio==2.7.1 --index-url https://download.pytorch.org/whl/cu128
-pip install triton
-```
-
-### 2. Install Other Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
 ---
 
-## ▶️ Usage
-
-Run the Gradio app:
-
-```bash
-python app.py
-```
-
-By default, it will:
-
-* Cache models inside the `models/` directory.
-* Save generated audio inside the `outputs/` directory.
-* Launch a **local Gradio UI** in your browser.
-
----
 
 ## 🖥️ Interface Overview
 
